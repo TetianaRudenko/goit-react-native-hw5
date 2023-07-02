@@ -8,7 +8,7 @@ import BtnArrowLeft from "../Components/BtnArrowLeft";
 import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
-import CommentsScreen from "./CommentsScreen";
+
 
 
 const HomeScreen = () => {
@@ -126,27 +126,6 @@ const HomeScreen = () => {
         }}
       />
 
-      <Tabs.Screen
-        name="Comments"
-        component={CommentsScreen}
-        options={{
-          title: "Коментарі",
-          tabBarStyle: { display: 'none' },
-          headerLeft: () => <BtnArrowLeft onPress={() => navigation.navigate("Posts")} />,
-          headerLeftContainerStyle: {
-            flex: 1,
-            paddingLeft:16,
-          },
-          tabBarStyle: {
-            paddingTop: 17,
-            paddingHorizontal: 80,
-            paddingBottom: 22,
-            height: 83,
-          },
-        }}
-      
-      />
-    
       </Tabs.Navigator>
        
   );

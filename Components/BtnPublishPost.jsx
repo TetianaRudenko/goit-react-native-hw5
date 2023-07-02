@@ -1,9 +1,9 @@
 import { Text, StyleSheet, Pressable } from 'react-native';
 
-const BtnPublishPost = ({ onPress }) => {
+const BtnPublishPost = ({ style, onPress }) => {
   return (
     <Pressable
-      style={styled.button}
+      style={[styled.button, style]}
       onPress={onPress}>
       <Text style={styled.text}>Опублікувати</Text>
     </Pressable>

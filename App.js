@@ -1,13 +1,15 @@
 
 import 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from 'expo-status-bar';
 
 import RegistrationScreen from './Screens/RegistrationScreen';
 import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
+import CommentsScreen from "./Screens/CommentsScreen";
+import BtnArrowLeft from './Components/BtnArrowLeft';
 
 const MainStack = createStackNavigator();
 
@@ -17,6 +19,8 @@ const App = () => {
     "Roboto-Medium": require('./assets/fonts/Roboto-Medium.ttf'),
     "Roboto-Bold": require('./assets/fonts/Roboto-Bold.ttf'),
   });
+
+  //const navigation = useNavigation();
 
   return (
     <NavigationContainer> 
@@ -39,6 +43,20 @@ const App = () => {
           name="Home"
           component={HomeScreen}
           options={{ headerShown: false}} 
+        />
+
+        <MainStack.Screen
+          name="Comments"
+          component={CommentsScreen}
+          options={({navigation})=> ({
+            title: "Коментарі",
+            headerTitleAlign:"center",
+            headerLeft: () => <BtnArrowLeft onPress={() => navigation.navigate("Posts")} />,
+            headerLeftContainerStyle: {
+              flex: 1,
+              paddingLeft:16,
+            }, 
+            })}
         />
       </MainStack.Navigator>
 
