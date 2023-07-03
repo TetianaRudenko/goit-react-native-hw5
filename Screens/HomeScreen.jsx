@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, } from 'react-native';
-import { Feather,  } from '@expo/vector-icons';
+import { Feather, } from '@expo/vector-icons';
+
 import BtnLogOut from "../Components/BtnLogOut";
 import BtnArrowLeft from "../Components/BtnArrowLeft";
 
@@ -11,9 +10,8 @@ import ProfileScreen from "./ProfileScreen";
 
 
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const Tabs = createBottomTabNavigator();
-  const navigation = useNavigation();
   
   return (
     <Tabs.Navigator
@@ -36,8 +34,6 @@ const HomeScreen = () => {
             
           let icon = <Feather name={iconName} size={size} color={color} />;      
           return icon;
-          //return <BtnTabBar name={iconName} size={size} color={color} />;
-         
         },
         tabBarActiveBackgroundColor: "#FF6C00",
         tabBarActiveTintColor: "#fff",
@@ -67,10 +63,6 @@ const HomeScreen = () => {
           headerRightContainerStyle: {
             paddingRight: 10,  
           },
-         /*  tabBarIcon: () => <BtnTabBar 
-            onPress={() => navigation.navigate('Posts')}
-            icon
-          />,   */
           tabBarShowLabel: false, 
           tabBarStyle: {
             alignContent: "space-around",
@@ -93,20 +85,6 @@ const HomeScreen = () => {
             flex: 1,
             paddingLeft:16,
           },
-         /*  tabBarIcon: () => {
-            
-            return (
-              <BtnTabBar 
-                onPress={() => navigation.navigate('CreatePosts')}
-                icon={()=>  <AntDesign
-                  name="plus"
-                  size={24}
-                  color={"#212121CC"}
-                />
-                }
-              />
-            )
-          },        */ 
         }}
       />
       <Tabs.Screen
@@ -126,10 +104,8 @@ const HomeScreen = () => {
         }}
       />
 
-      </Tabs.Navigator>
-       
+      </Tabs.Navigator>   
   );
-
 };
 
 export default HomeScreen;

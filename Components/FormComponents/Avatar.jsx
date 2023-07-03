@@ -1,36 +1,49 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View , Button} from "react-native";
 import AddAvatarButton from "./AddAvatarButton";
 import { useState } from "react";
 import avatar from "../../assets/img/avatar.jpg"
 import { AntDesign } from '@expo/vector-icons'; 
 
+import * as ImagePicker from 'expo-image-picker';
 
 const Avatar = () => {
-  const [isAvatarLoaded, setIsAvatarLoaded] = useState(false);
-  
-  const handleAddAvatar = () => {
-    console.log("додай аватар");
-    setIsAvatarLoaded(!isAvatarLoaded);
+  const [loadedAvatar, setLoadedAvatar] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
+
+  const pickAvatarAsync = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+
+    if (!result.canceled) {
+      setSelectedAvatar(result.assets[0].uri);
+      setLoadedAvatar(!loadedAvatar);
+    }
   };
 
   return (
     <View style={styled.wrap}>
-      { !isAvatarLoaded ? (
+      { !loadedAvatar ? (
         <View style={styled.avatar}>
           <AddAvatarButton
             style={styled.iconBtn}
-            onPress={handleAddAvatar}
+            onPress={pickAvatarAsync}
           />
         </View>
       ) : (
           <View>
-            <Image source={avatar}  style={styled.avatar}/>
+            <Image source={{uri: selectedAvatar}}  style={styled.avatar}/>
             <AntDesign
               name="pluscircleo"
               size={25}
               color="#BDBDBD"
               style={styled.iconBtn}
-              onPress={handleAddAvatar}
+              onPress={pickAvatarAsync}
             /> 
         </View>
       )}

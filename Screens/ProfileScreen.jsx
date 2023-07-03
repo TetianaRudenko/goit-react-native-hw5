@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View, Image, ImageBackground, ScrollView, Pressable} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import Avatar from '../Components/FormComponents/Avatar';
 import BtnLogOut from '../Components/BtnLogOut';
@@ -8,8 +7,7 @@ import forest from "../assets/img/forest.jpg"
 import { Feather, AntDesign, EvilIcons } from '@expo/vector-icons';
 
 
-const ProfileScreen = () => {  
-  const navigation = useNavigation();
+const ProfileScreen = ({navigation}) => {  
   
   return (
     <View style={styled.container}>

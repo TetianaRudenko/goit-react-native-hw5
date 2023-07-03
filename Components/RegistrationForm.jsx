@@ -17,9 +17,9 @@ const RegistrationForm= () => {
   const navigation = useNavigation();
 
   const handleFormSubmit = () => {
-    { (!login || !email || !password ) && console.log("Заповніть поля форми") }
+    {( !login || !email || !password)  && alert("Заповніть поля* форми") }
     { login && email && password && console.log("Credentials", `${login} ${email} ${password}`) }
-    { login && email && password && navigation.navigate("Home") }
+    { login && email && password && navigation.navigate("Home")}
     setLogin('');
     setEmail('');
     setPassword('');
@@ -31,7 +31,7 @@ const RegistrationForm= () => {
       <Text style={styled.title}>Реєстрація</Text>
           
       <TextInput
-        placeholder="Логін"
+        placeholder="Логін*"
         style={loginFocus ? styled.inputOnFocus : styled.input}
         onFocus={() => setLoginFocus(true)}
         onBlur={() => setLoginFocus(false)}
@@ -41,7 +41,7 @@ const RegistrationForm= () => {
         autoCapitalize='words'
       />
       <TextInput
-        placeholder="Адреса електронної пошти"
+        placeholder="Адреса електронної пошти*"
         style={emailFocus ? styled.inputOnFocus : styled.input}
         onFocus={() => setEmailFocus(true)}
         onBlur={() => setEmailFocus(false)}
@@ -53,7 +53,7 @@ const RegistrationForm= () => {
       <View> 
 
         <TextInput
-          placeholder="Пароль"
+          placeholder="Пароль*"
           style={passwordFocus ? [styled.inputOnFocus, { marginBottom: 43,}] : [styled.input, {marginBottom: 43},]}
           onFocus={() => setPasswordFocus(true)}
           onBlur={() => setPasswordFocus(false)}

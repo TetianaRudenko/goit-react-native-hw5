@@ -1,9 +1,9 @@
-import { Pressable } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 const BtnDeletePost = ({ onPress }) => {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} style={styled.delete}>
       <Feather
         name="trash-2"
         size={24}
@@ -11,5 +11,18 @@ const BtnDeletePost = ({ onPress }) => {
     </Pressable>
   );
 };
+
+const styled = StyleSheet.create({
+  delete: {
+    width: 70,
+    height: 40,
+    justifyContent:"center",
+    alignItems: 'center',
+    alignSelf:"center",
+    backgroundColor:"#F6F6F6",
+    
+    borderRadius: 20,
+  }
+});
 
 export default BtnDeletePost;

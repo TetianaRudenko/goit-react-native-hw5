@@ -9,6 +9,7 @@ import RegistrationScreen from './Screens/RegistrationScreen';
 import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import CommentsScreen from "./Screens/CommentsScreen";
+import MapScreen from './Screens/MapScreen';
 import BtnArrowLeft from './Components/BtnArrowLeft';
 
 const MainStack = createStackNavigator();
@@ -20,7 +21,6 @@ const App = () => {
     "Roboto-Bold": require('./assets/fonts/Roboto-Bold.ttf'),
   });
 
-  //const navigation = useNavigation();
 
   return (
     <NavigationContainer> 
@@ -43,6 +43,20 @@ const App = () => {
           name="Home"
           component={HomeScreen}
           options={{ headerShown: false}} 
+        />
+
+        <MainStack.Screen
+          name="Map"
+          component={MapScreen}
+          options={({navigation})=> ({
+            title: "Мапа",
+            headerTitleAlign:"center",
+            headerLeft: () => <BtnArrowLeft onPress={() => navigation.navigate("Posts")} />,
+            headerLeftContainerStyle: {
+              flex: 1,
+              paddingLeft:16,
+            }, 
+            })}
         />
 
         <MainStack.Screen

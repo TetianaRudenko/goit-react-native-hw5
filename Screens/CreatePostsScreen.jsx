@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground , TextInput, Pressable, TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, ImageBackground , TextInput} from 'react-native';
 
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+
+import * as Location from "expo-location";
 
 import { EvilIcons, Entypo } from '@expo/vector-icons';
 import BtnPublishPost from '../Components/BtnPublishPost';
@@ -11,16 +12,18 @@ import BtnDeletePost from '../Components/BtnDeletePost';
 import bgImgPlaceholder from "../assets/img/bgImgPlaceholder.png";
 
 
+const CreatePostsScreen = ({ navigation, }) => {
+  const [nameFocus, setNameFocus] = useState(false);
+  const [locusFocus, setLocusFocus] = useState(false);
 
-const CreatePostsScreen = () => {
-  const [name, setName] = useState(null);
+  const [name, setName] = useState('');
   const [locus, setLocus] = useState(null);
   const [photo, setPhoto] = useState(null);
-  const navigation = useNavigation();
 
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+
 
   useEffect(() => {
     (async () => {
@@ -35,7 +38,32 @@ const CreatePostsScreen = () => {
     return <View />;
   }
 
-  
+  const handlePublishPostBtn = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission to access location was denied");
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    const coords = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+    setPhoto(null);
+    setName('');
+    setLocus(null);
+     
+    navigation.navigate("Posts", {photo, name, locus, coords })
+  }
+
+  const takePicture = async () => {
+    if (cameraRef) {
+      const { uri } = await cameraRef.takePictureAsync();
+      await MediaLibrary.createAssetAsync(uri);
+      setPhoto(uri);
+    }
+  }
+
 
   return (
     <View style={styled.container} >
@@ -54,13 +82,7 @@ const CreatePostsScreen = () => {
                       size={24}
                       color="#BDBDBD"
                       alignSelf="center"
-                      onPress={async () => {
-                        if (cameraRef) {
-                          const { uri } = await cameraRef.takePictureAsync();
-                          await MediaLibrary.createAssetAsync(uri);
-                          setPhoto(uri);
-                        }
-                      }}
+                      onPress={takePicture}
                       />
                   </View>
                 </Camera>  
@@ -108,7 +130,9 @@ const CreatePostsScreen = () => {
         placeholder="Назва..."
         onChangeText={(newName) => setName(newName)}
         value={name}
-        style={[styled.postInput]}
+        style={nameFocus ? [styled.postInput, { color: "#212121" }] : [styled.postInput]}
+        onFocus={() => setNameFocus(true)}
+        onBlur={()=> setNameFocus(false)}
       />
 
         <View style={[styled.location, { alignItems: "center" }]}>
@@ -117,7 +141,9 @@ const CreatePostsScreen = () => {
             placeholder="Місцевість"
             onChangeText={(newLocation) => setLocus(newLocation)}
             value={locus}
-            style={[styled.postLocation]}
+            style={locusFocus ? [styled.postLocation, { color: "#212121" }] : [styled.postLocation]}
+            onFocus={() => setLocusFocus(true)}
+            onBlur={()=> setLocusFocus(false)}
           />
         </View>
         
@@ -126,19 +152,19 @@ const CreatePostsScreen = () => {
           ? { backgroundColor: "#FF6C00", color: "#FFFFFF" }
           : { backgroundColor: "#F6F6F6", color: "#BDBDBD" }}
         onPress={() =>
-          photo && name && locus && navigation.navigate("Posts")
-        } />
+          photo && name && locus &&   handlePublishPostBtn()
+        }
+      />
     
-
-      <View style={styled.delete}>
+      <View style={styled.deleteBtnWrap}>
         <BtnDeletePost
           onPress={() => {
-            setName(null);
+            setName(''),
             setLocus(null),
             setPhoto(null)
           }} />
       </View>
-      
+
     </View>
  );
 };
@@ -150,6 +176,7 @@ const styled = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopColor: 'rgba(0, 0, 0, 0.3)',
     borderTopWidth: 1,
+    paddingBottom:32,
   },
   photoWrap: {
     marginBottom: 32, 
@@ -201,16 +228,13 @@ const styled = StyleSheet.create({
     borderBottomColor: '#E8E8E8',
     marginBottom: 32,
   },
-  delete: {
-    justifyContent:"center",
-    width: 70,
-    height: 40,
-    backgroundColor:"#F6F6F6",
+  deleteBtnWrap: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'flex-end',
     marginBottom: 22,
-    borderRadius: 20,
-    alignSelf:"center",
-  }
+    
+  },
 });
 
 export default CreatePostsScreen;

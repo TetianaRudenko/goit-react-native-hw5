@@ -7,12 +7,11 @@ const CommentsScreen = () => {
   return (
     <View style={styled.container}>
       <Image style={styled.postPhoto} source={forest} />
-
       <View style={styled.commentWrap}>
 
       <Image style={styled.guestPhoto}></Image>
       <Text>
-Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!
+        Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!
       </Text>
       </View>
     </View>
@@ -32,13 +31,16 @@ const styled = StyleSheet.create({
   postPhoto: {
     width: '100%',
     height: 240,
-    borderRadius: 8,
-    backgroundColor: '#F6F6F6',
-    borderColor: '#E8E8E8',
-    borderWidth: 1,
     marginTop: 32,
     marginBottom:32,
     alignItems: 'center',
+    backgroundColor: '#F6F6F6',
+    borderRadius: 8,
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
+
+    overflow: "hidden",
+    resizeMode: "cover",
   },
   commentWrap: {
     flex: 1,

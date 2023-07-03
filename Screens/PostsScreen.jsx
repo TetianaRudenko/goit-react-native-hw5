@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View, Image, ScrollView, Pressable} from 'react-native';
-import { Feather, AntDesign } from '@expo/vector-icons';
+import { Feather, AntDesign,EvilIcons } from '@expo/vector-icons';
+
 import avatar from "../assets/img/avatar.jpg";
-import forest from "../assets/img/forest.jpg"
-
-import {  EvilIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+//import forest from "../assets/img/forest.jpg"
 
 
-const PostsScreen = ({ children }) => {
+const PostsScreen = ({ navigation, route}) => {
+  const photo = route.params ? route.params.photo : null;
+  const location = route.params ? route.params.coords : null;
+  const name = route.params ? route.params.name : null;
+  const locus = route.params ? route.params.locus : null;
+
   
-  const navigation = useNavigation();
-
   return (
     <View style={styled.container}>
 
@@ -23,72 +24,55 @@ const PostsScreen = ({ children }) => {
       </View>
       
       <ScrollView>
-         <View style={styled.post}>
-            <Image style={styled.postPhoto} source={forest}/>
-            <Text style={styled.postName}>Ліс</Text>
-            <View style={styled.postWrapper}>
+     
+        {route.params && <View style={styled.post}>
+          <Image
+            style={styled.postPhoto}
+            source={{ uri: photo }} />
+          <Text
+            style={styled.postName}>
+            {name}
+          </Text>
 
+          <View style={styled.postWrapper}>
             <Feather
               name="message-circle"
               size={24}
               color="#FF6C00"
-              onPress={()=> navigation.navigate("Comments")}
-            />
-              <Text style={styled.comment}>8</Text>
+              onPress={() => navigation.navigate("Comments")} />
+            <Text
+              style={styled.comment}>
+              коментарі
+            </Text>
 
-              <AntDesign name="like2" size={24} color="#FF6C00"/>
-              <Text style={styled.like}>153</Text>
-
-             
-              <Pressable style={styled.location}> 
-                <EvilIcons name="location" size={24} color="black" />
-                <Text  style={[styled.linkText, { textDecorationLine: "underline" }]}>Місцевіcть</Text>
-              </Pressable>
-              
-            </View>
-        </View>
-        
-         <View style={styled.post}>
-            <Image style={styled.postPhoto} source={forest}/>
-            <Text style={styled.postName}>Ліс</Text>
-            <View style={styled.postWrapper}>
-
-              <Feather name="message-circle" size={24} color="#FF6C00" onPress={()=> navigation.navigate("Comments")}/>
-              <Text style={styled.comment}>8</Text>
-
-              <AntDesign name="like2" size={24} color="#FF6C00"/>
-              <Text style={styled.like}>153</Text>
+            <AntDesign
+              name="like2"
+              size={24}
+              color="#FF6C00" />
+            <Text
+              style={styled.like}>
+              вподобайки
+            </Text>
 
              
-              <Pressable style={styled.location}> 
-                <EvilIcons name="location" size={24} color="black" />
-                <Text  style={[styled.linkText, { textDecorationLine: "underline" }]}>Місцевіcть</Text>
+            <Pressable
+              style={styled.location}> 
+              <EvilIcons
+                name="location"
+                size={24}
+                color="black"
+                onPress={()=> navigation.navigate("Map", {location})}/>
+              <Text
+                style={[styled.linkText, { textDecorationLine: "underline" }]}>
+                {locus}
+              </Text>
               </Pressable>
-              
+    
             </View>
-        </View>
-        
-         <View style={styled.post}>
-            <Image style={styled.postPhoto} source={forest}/>
-            <Text style={styled.postName}>Ліс</Text>
-            <View style={styled.postWrapper}>
+        </View>}
 
-              <Feather name="message-circle" size={24} color="#FF6C00"/>
-              <Text style={styled.comment}>8</Text>
-
-              <AntDesign name="like2" size={24} color="#FF6C00"/>
-              <Text style={styled.like}>153</Text>
-
-             
-              <Pressable style={styled.location}> 
-                <EvilIcons name="location" size={24} color="black" />
-                <Text  style={[styled.linkText, { textDecorationLine: "underline" }]}>Місцевіcть</Text>
-              </Pressable>
-              
-            </View>
-          </View>
       </ScrollView>
-      
+
     </View>
   );
 };

@@ -13,7 +13,7 @@ const LoginForm = () => {
   const navigation = useNavigation();
 
   const handleFormSubmit = () => {
-    { (!email || !password) && console.log("Заповніть поля форми") }
+    { (!email || !password) && alert("Заповніть поля* форми") }
     { email && password && console.log("Credentials", `${email} ${password}`); }
     { email && password && navigation.navigate("Home") }
     
@@ -26,7 +26,7 @@ const LoginForm = () => {
     <View style={styled.container}>
       <Text style={styled.title}>Увійти</Text>      
       <TextInput
-        placeholder="Адреса електронної пошти"
+        placeholder="Адреса електронної пошти*"
         style={emailFocus ? styled.inputOnFocus : styled.input}
         onFocus={() => setEmailFocus(true)}
         onBlur={() => setEmailFocus(false)}
@@ -38,7 +38,7 @@ const LoginForm = () => {
 
       <View> 
         <TextInput
-          placeholder="Пароль"
+          placeholder="Пароль*"
           style={passwordFocus ? [styled.inputOnFocus, {marginBottom: 42,}] : [styled.input, {marginBottom: 42,}]}
           onFocus={() => setPasswordFocus(true)}
           onBlur={() => setPasswordFocus(false)}
